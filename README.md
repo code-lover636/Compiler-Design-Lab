@@ -43,3 +43,10 @@ To Run:
 .             { printf("Other char: %s\n", yytext); }
 %%
 ```
+
+
+## YACC (Yet Another Compiler Compiler)
+🧩 What is YACC?
+- YACC is a parser generator: it produces a parser (syntax analyzer) from a grammar description (written in BNF-like notation).
+- It works with Lex, which handles tokenizing input.
+- YACC handles the grammar (syntax rules), parsing, and semantic actions.
