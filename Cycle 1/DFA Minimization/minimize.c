@@ -102,10 +102,6 @@ int main(){
         }
     }
 
-
-    printf("\nAfter Marking initial pairs:\n");
-
-    printTable(n, table);
     int out1, out2, flag = 1;
 
     while(flag){
@@ -130,8 +126,6 @@ int main(){
             }
         }
     }
-    printf("\nFinal My-Hill Nerode theorem:\n");
-    printTable(n, table);
 
     int empty[n][n], k=0;
     reset(n, empty);
@@ -166,8 +160,8 @@ int main(){
             k += 1;
         }
     }
-    printTable(n, empty);
 
+    printf("Minimized DFA Transition Table:\n");
     for(int i=0; i<n; i++){
         int j;
         for(j=0; j<n && empty[i][j]==0; j++);

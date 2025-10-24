@@ -3,8 +3,8 @@
 %}
 
 %%
-[a-zA-Z][a-zA-Z0-9]*[\n]   { return IDENTIFIER; }
-.*[\n]                          { return INVALID; }
+[a-zA-Z][a-zA-Z0-9]*   { return IDENTIFIER; }
+.*                        { return INVALID; }
 %%
 
 int yywrap(void) {

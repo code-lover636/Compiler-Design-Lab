@@ -3,44 +3,54 @@
 #include <stdlib.h>
 
 int yylex(void);
-int yyerror(const char *s);
+void yyerror(const char *s);
 %}
+
+
 
 %token NUMBER
 
+
+%left '+' '-'
+%left '*' '/'
+%right UMINUS  
+
 %%
+
 input:
+      /* empty */
     | input line
     ;
 
 line:
-      expr '\n'    { printf("Result = %d\n", $1); }
+      expr '\n'   { printf("Result = %d\n", $1); }
+    | '\n'        { /* ignore blank lines */ }
     ;
 
 expr:
       expr '+' expr   { $$ = $1 + $3; }
     | expr '-' expr   { $$ = $1 - $3; }
     | expr '*' expr   { $$ = $1 * $3; }
-    | expr '/' expr   { 
-                          if ($3 == 0) {
-                              printf("Error: Division by zero\n");
-                              $$ = 0;
-                          } else {
-                              $$ = $1 / $3;
-                          }
+    | expr '/' expr   {
+                        if ($3 == 0) {
+                            yyerror("Division by zero");
+                            $$ = 0;   /* recover: set result to 0 */
+                        } else {
+                            $$ = $1 / $3;
+                        }
                       }
-    | '(' expr ')'     { $$ = $2; }
-    | NUMBER           { $$ = $1; }
+    | '-' expr %prec UMINUS   { $$ = -$2; }   /* unary minus */
+    | '(' expr ')'            { $$ = $2; }
+    | NUMBER                  { $$ = $1; }
     ;
+
 %%
 
-int main() {
-    printf("Enter expressions (Ctrl+D to exit):\n");
-    yyparse();
-    return 0;
+void yyerror(const char *s) {
+    fprintf(stderr, "Error: %s\n", s);
 }
 
-int yyerror(const char *s) {
-    printf("Syntax error: %s\n", s);
-    return 0;
+int main(void) {
+    printf("Enter expressions, one per line (Ctrl+D to exit):\n");
+    return yyparse();
 }
