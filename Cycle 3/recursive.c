@@ -38,29 +38,38 @@ void read_grammar() {
     }
 }
 
+void print(char expansion[50], int expIndex){
+    char temp[100];
+    int i=0;
+    for(i=0; i<expIndex; i++){
+        temp[i] = expansion[i];
+    }
+
+    temp[i++] = '[';
+    temp[i++] = expansion[expIndex];
+    temp[i++] = ']';
+
+    for(int j=expIndex+1; j<strlen(expansion); j++){
+        temp[i] = expansion[j];
+        i++;
+    }
+    temp[i] = '\0';
+    printf("%s\t", temp);
+}
+
 bool parse(char expansion[50], int expIndex, char input[20], int inpIndex) {
-
-
     if (strlen(expansion) == expIndex) {
         return strcmp(expansion, input) == 0;
     }
 
-    char tem[50];
-    strcpy(tem, expansion);
-    char ch = expansion[expIndex];
-    expansion[expIndex] = '[';
-    expansion[expIndex+1] = ch;
-    expansion[expIndex+2] = ']';
-    expansion[expIndex+3] = '\0';
-    printf("%s%s\t", expansion, tem+expIndex+1);
-    strcpy(expansion, tem);
-
     if (expansion[expIndex] == input[inpIndex]) {
+        print(expansion, expIndex);
         printf("[%c matches with input]\n", expansion[expIndex]);
         return parse(expansion, expIndex + 1, input, inpIndex + 1);
     }
 
     if ('A' > expansion[expIndex] || expansion[expIndex] > 'Z') {
+        print(expansion, expIndex);
         printf("[%c mismatches with input]\n", expansion[expIndex]);
         return false;
     }
@@ -73,6 +82,7 @@ bool parse(char expansion[50], int expIndex, char input[20], int inpIndex) {
 
     while (rule) {
         if (rule->symbol == nt) {
+            print(temp, expIndex);
             printf("[Expand: %c -> %s]\n", rule->symbol, rule->expression);
 
             strcat(expansion, rule->expression);

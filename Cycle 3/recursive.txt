@@ -4,4 +4,4 @@ S = AB
 A = a
 A = d
 B = b
-ad
+ab
