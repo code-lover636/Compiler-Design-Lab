@@ -1,0 +1,7 @@
+S
+4
+S = AB
+A = a
+A = d
+B = b
+ad
