@@ -4,7 +4,7 @@
 #include <string.h>
 
 // STRUCTURES
-typedef struct ProductionRule {
+typedef struct {
     char symbol;
     char expression[20];
     struct ProductionRule *next;
@@ -39,22 +39,7 @@ void read_grammar() {
 }
 
 void print(char expansion[50], int expIndex){
-    char temp[100];
-    int i=0;
-    for(i=0; i<expIndex; i++){
-        temp[i] = expansion[i];
-    }
-
-    temp[i++] = '[';
-    temp[i++] = expansion[expIndex];
-    temp[i++] = ']';
-
-    for(int j=expIndex+1; j<strlen(expansion); j++){
-        temp[i] = expansion[j];
-        i++;
-    }
-    temp[i] = '\0';
-    printf("%s\t", temp);
+    printf("%.*s[%c]%s\t", expIndex, expansion, expansion[expIndex], expansion+expIndex+1);
 }
 
 bool parse(char expansion[50], int expIndex, char input[20], int inpIndex) {
@@ -111,7 +96,7 @@ int main() {
     expansion[0] = g.start;
     expansion[1] = '\0';
 
-    printf("Parse tree for input: %s\n", input);
+    printf("Input: %s\n", input);
     bool accepted = parse(expansion, 0, input, 0);
 
     printf("\nResult: %s\n", accepted ? "String ACCEPTED by grammar" : "String REJECTED by grammar");
