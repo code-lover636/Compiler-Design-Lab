@@ -145,12 +145,12 @@ void findFollow() {
             if(pr.expression[0] == 'e')
                 continue;
 
-            int k = 0;
-            for(k = 0; k<strlen(pr.expression); k++){
+            int j;
+
+            for(int k = 0; k<strlen(pr.expression); k++){
                 if((indexnt = findNT(pr.expression[k])) == -1)
-                    continue;
-                
-                for(int j=k+1; j<strlen(pr.expression); j++){
+                    continue;   
+                for(j=k+1; j<strlen(pr.expression); j++){
                     if((index = findT(pr.expression[j])) != -1){
                         changed |= !g.follow[indexnt][index];
                         g.follow[indexnt][index] = 1;
@@ -163,12 +163,13 @@ void findFollow() {
                         break;
                     }
                 }
-            }
-            if(k == strlen(pr.expression)){
-                merge(g.follow, indexnt, g.follow, findNT(pr.symbol));
-                if(g.follow[findNT(pr.symbol)][t] == 1){
-                    changed |=!g.follow[indexnt][t];
-                    g.follow[indexnt][t] = 1;
+
+                if(j == strlen(pr.expression)){
+                    merge(g.follow, indexnt, g.follow, findNT(pr.symbol));
+                    if(g.follow[findNT(pr.symbol)][t] == 1){
+                        changed |=!g.follow[indexnt][t];
+                        g.follow[indexnt][t] = 1;
+                    }
                 }
             }
         }

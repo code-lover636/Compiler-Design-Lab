@@ -1,56 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
-int no_of_states;
+void main()
+{
+    int n,end,i,j,k;
+    char state1[3],input[3],state2[3];
+    char state[20][20],result[20][20],currstate[3];
+    FILE *fp=fopen("NFA.txt","r");
 
-void reset(int closure[no_of_states][no_of_states]){
-    for(int i = 0; i<no_of_states; i++)
-        for(int j=0; j<no_of_states; j++){
-            if(i == j)
-                closure[i][j] = 1;
-            else
-                closure[i][j] = 0;
-        }
-}
+    printf("Enter the no of states:");
+    scanf("%d",&n);
 
-void display(int closure[no_of_states][no_of_states]){
-    printf("Epsilon closure of all states:\n");
-
-    for(int i=0; i<no_of_states; i++){
-        printf("q%d: {",i);
-        for(int j=0; j<no_of_states; j++){
-            if(closure[i][j] == 1)
-                printf("q%d, ", j);
-        }
-        printf("}\n");
+    printf("Enter the states:");
+    for(i=0;i<n;i++)
+    {
+        scanf("%s",state[i]);
     }
-}
 
-int main() {
-    char state1[3], state2[3], inp[2];
-    int end;
+    for(k=0;k<n;k++)
+    {
+        i=0;
+        strcpy(currstate,state[k]);
+        strcpy(result[i],currstate);
+        i++;
 
-    printf("Enter total number of states: ");
-    scanf("%d", &no_of_states);
-
-    int closure[no_of_states][no_of_states];
-    FILE *INPUT = fopen("NFA.txt", "r");
-
-    reset(closure);
-
-    for(int i=0; i<no_of_states; i++){
-        int state = i;
-
-        while((end = fscanf(INPUT, "%s %s %s", state1, inp, state2)) != EOF){
-            if(inp[0] == 'e' && state == (state1[1] - '0') ){
-                closure[i][ (state2[1] - '0') ] = 1;
-                state = (state2[1] - '0');
+        while((end=fscanf(fp,"%s %s %s",state1,input,state2))!=EOF)
+        {
+            if(strcmp(state1,currstate)==0)
+            {
+                if(strcmp(input,"e")==0)
+                {
+                    strcpy(result[i],state2);
+                    strcpy(currstate,state2);
+                    i++;
+                }
             }
         }
-        rewind(INPUT);
+        printf("E Closure of %s:{",state[k]);
+        for(int j=0;j<i;j++)
+        {
+            printf("%s ",result[j]);
+        }
+        printf("}\n");
+        rewind(fp);
     }
-
-    display(closure);
-
+    fclose(fp);
 }

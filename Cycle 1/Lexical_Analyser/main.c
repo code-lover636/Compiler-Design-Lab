@@ -15,15 +15,13 @@ int main() {
     while( fgets(program, sizeof(program), file) != NULL){
         for( char *cursor = program; *cursor != '\0'; cursor++){
             // Skip white space
-            while (*cursor != '\n' && *cursor != '\0' && isspace(*cursor)){
+            while (*cursor != '\n' && *cursor != '\0' && isspace(*cursor))
                 cursor++;
-            }
 
-            if(*cursor == '/' && *(cursor+1)=='/'){
-                while(*cursor != '\n' && *cursor != '\0'){
+
+            if(*cursor == '/' && *(cursor+1)=='/')
+                while(*cursor != '\n' && *cursor != '\0')
                     cursor++;
-                }
-            }
 
             // Check keywords
             char keywords[][10] = {"auto", "break", "case", "char", "const", "continue", "default",
@@ -31,7 +29,7 @@ int main() {
                                     "if", "int", "long", "register", "return", "short", "signed",
                                     "sizeof", "static", "struct", "switch", "typedef", "union",
                                     "unsigned", "void", "volatile", "while"
-                                    };
+                                  };
             if(isalpha(*cursor) || *cursor == '_'){
                 char word[100];
                 int i=0;

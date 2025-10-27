@@ -1,9 +1,12 @@
-S
-5
-SAB
-abc
-S = AB
-A = aA
-A = e
-B = bB
-B = c
+E
+8
+ETXYF
++*()i
+E = TX
+X = +TX
+X = e
+T = FY
+Y = *FY
+Y = e
+F = i
+F = (E)

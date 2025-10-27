@@ -1,1 +1,0 @@
--  Define macros and shorthand notations for regular expressions to simplify rule definitions.
